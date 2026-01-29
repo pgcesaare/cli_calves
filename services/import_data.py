@@ -1,14 +1,15 @@
 from rich.console import Console
 from rich.panel import Panel
+from context.context import file, data
 from ui.styles import PRIMARY_COLOR
-from ui.services.get_files import get_excel_files
-from ui.styles import PRIMARY_COLOR
+from utils.get_files import get_excel_files
 import pandas as pd
 import os
 
 console = Console()
 
 def import_data():
+
     while True:
         console.clear()
 
@@ -28,7 +29,7 @@ def import_data():
             files_text,
             title=f"[bold {PRIMARY_COLOR}]Files Available[/bold {PRIMARY_COLOR}]",
             border_style=PRIMARY_COLOR,
-            subtitle=f"[{PRIMARY_COLOR}]Select a file by number, [X] to exit[/{PRIMARY_COLOR}]",
+            subtitle=f"[{PRIMARY_COLOR}]Select a file by number, [X] to exit![/{PRIMARY_COLOR}]",
             padding=(1, 2),
         )
 
@@ -49,7 +50,10 @@ def import_data():
                 raise IndexError
 
             file_path = files[index]
-            data = pd.read_excel(file_path)
+
+            #data for context
+            file.set(file_path.split('.')[0])
+            data.set(pd.read_excel(file_path))
 
             console.print(
                 f"\n[{PRIMARY_COLOR}]Loaded:[/{PRIMARY_COLOR}] {os.path.basename(file_path)}"

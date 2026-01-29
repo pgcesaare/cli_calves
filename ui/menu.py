@@ -1,44 +1,20 @@
 from rich.console import Console
-from rich.panel import Panel
-from rich.align import Align
-from rich.text import Text
-import pandas as pd
-
-from ui.services.import_data import import_data
-from ui.styles import PRIMARY_COLOR
+from services.show_menu import show_menu
+from context.context import file
+from services.import_data import import_data
+from modules.quick_analysis.qa_menu import qa_menu
 
 console = Console()
 
-
-def show_menu():
-    console.clear()
-
-    menu = Text()
-    
-    menu.append("\n1) Inventory\n")
-    menu.append("\n2) Quick Analysis\n")
-    menu.append("\n3) Death Report\n")
-
-    panel = Panel(
-        Align.center(menu),
-        title=f"[bold {PRIMARY_COLOR}]MAIN MENU — Gold Star[/bold {PRIMARY_COLOR}]",
-        subtitle=f"[{PRIMARY_COLOR}]Select Analysis Option, [X] to exit! [/{PRIMARY_COLOR}]",
-        border_style=PRIMARY_COLOR,
-        padding=(1, 2),
-    )
-
-    console.print(panel)
-
-
-
-
-
 def main():
-
-    data = import_data()
-
+    import_data()
     while True:
-        show_menu()
+
+        #extracting file name from context
+        file_text = file.get() if file.get() else "No file loaded"
+        
+        #menu loaded
+        show_menu(file_text)
 
         choice = console.input("\nSelect an option: ")
 
@@ -47,8 +23,8 @@ def main():
             console.input("Press ENTER to continue")
 
         elif choice == "2":
-            console.print("\nQuick Analysis selected")
-            console.input("Press ENTER to continue")
+
+            qa_menu()
 
         elif choice == "3":
             console.print("\nDeath Report selected")
@@ -59,6 +35,6 @@ def main():
             break
 
         else:
-            console.print("\nInvalid option")
+            console.print("[red]\nInvalid option\n[/red]")
             console.input("Press ENTER to continue")
 
