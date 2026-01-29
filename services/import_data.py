@@ -53,7 +53,8 @@ def import_data():
 
             #data for context
             file.set(file_path.split('.')[0])
-            data.set(pd.read_excel(file_path))
+            df = pd.read_excel(file_path, parse_dates=True)
+            data.set(df)
 
             console.print(
                 f"\n[{PRIMARY_COLOR}]Loaded:[/{PRIMARY_COLOR}] {os.path.basename(file_path)}"
@@ -65,9 +66,9 @@ def import_data():
 
             if confirm == "0":
                 continue
-
-            return data
-
+            
+            return "Enter"
+        
         except ValueError:
             console.print("[red]Please enter a valid number[/red]")
         except IndexError:

@@ -1,10 +1,13 @@
 from modules.menu_builder import build_menu
+from modules.quick_analysis.averages.averages import averages_menu
 from rich.console import Console
 console = Console()
+
 def qa_menu():
 
     options = {
-    "1": "Averages",
+    "1": "Totals",
+    "2": "Averages",
     }
 
     
@@ -14,7 +17,8 @@ def qa_menu():
         options=options,
     )
 
-    print(result)
-    console.input("Press ENTER to continue")
+    if result == "2":
+        averages_menu()
+
     if result == "exit":
         exit()
