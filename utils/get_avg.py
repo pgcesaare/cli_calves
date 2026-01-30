@@ -19,6 +19,8 @@ def get_avg_per_week():
 
       avg = df['total_calves'].mean()
 
+      df['week_range'] = df['week_range'].str.replace('/', ' - ')
+
       return df, avg
 
 def get_avg_per_day():
@@ -40,9 +42,13 @@ def get_avg_per_day():
       df = df.rename(columns={
       "Date In": "date_in"
       })
+
+      df['date_in'] = df['date_in'].dt.date
       
       df = df.groupby(['week_range', 'date_in']).size().reset_index(name="total_calves")
 
       avg = df['total_calves'].mean()
+
+      df['week_range'] = df['week_range'].str.replace('/', ' - ')
 
       return df, avg
