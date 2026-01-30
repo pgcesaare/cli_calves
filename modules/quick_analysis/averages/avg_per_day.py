@@ -14,11 +14,13 @@ def avg_per_day():
 
             df, avg = get_avg_per_day()
                   
-            table = df_to_rich_table(df=df, caption="Table - Avg. Per Day")
+            table = df_to_rich_table(df=df.tail(), caption="Table - Avg. Per Day")
+            caption = Text("\n\nShowing only 5 most recent days from last 2 weeks.")
             avg_text = Text(f"\n\nAvg. per day: {avg}")
 
             content = Group(
                   table,
+                  caption,
                   avg_text
             )
 
@@ -35,14 +37,14 @@ def avg_per_day():
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 output_dir = "output"
                 os.makedirs(output_dir, exist_ok=True)
-                output_path = os.path.join(output_dir, "avg_per_day.csv")
+                output_path = os.path.join(output_dir, f"avg_per_day_{timestamp}.csv")
                 df.to_csv(output_path, index=False)
                 console.print(f"[green]Table exported successfully to {output_path}[/green]")
                 console.input("Press Enter to continue...")
                 break
             
             if choice == "x":
-                 exit()
+                exit()
             if choice == "m":
                 break
             

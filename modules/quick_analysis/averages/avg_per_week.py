@@ -31,10 +31,10 @@ def avg_per_week():
             choice = console.input("Select an option: ").strip().lower()
 
             if choice == "o":
-                timepstamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 output_dir = "output"
                 os.makedirs(output_dir, exist_ok=True)
-                output_path = os.path.join(output_dir, f"avg_per_week_{timepstamp}.csv")
+                output_path = os.path.join(output_dir, f"avg_per_week_{timestamp}.csv")
                 df.to_csv(output_path, index=False)
                 console.print(f"[green]Table exported successfully to {output_path}[/green]")
                 console.input("Press Enter to continue...")

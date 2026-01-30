@@ -12,7 +12,7 @@ def averages_menu():
 
     options = {
         "1": "Avg. Calves Per Week",
-        "2": "Avg. Calves Per Day"
+        "2": "Avg. Calves Per Day (last 2 weeks)",
     }
 
     
