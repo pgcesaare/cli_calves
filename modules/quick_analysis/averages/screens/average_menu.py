@@ -23,7 +23,6 @@ def averages_menu():
 
     #options logic
     if result == "1":
-            
             console.print("Avg. Calves")
     if result == "2":
             console.print("Avg. Calves Per Seller")

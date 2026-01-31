@@ -3,8 +3,7 @@ from rich.console import Console, Group
 from utils.get_avg import get_avg_per_week
 from modules.table_template import df_to_rich_table
 from rich.text import Text
-import os
-from datetime import datetime
+from utils.output_file import output_file
 
 def avg_per_week():
         
@@ -31,13 +30,7 @@ def avg_per_week():
             choice = console.input("Select an option: ").strip().lower()
 
             if choice == "o":
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                output_dir = "output"
-                os.makedirs(output_dir, exist_ok=True)
-                output_path = os.path.join(output_dir, f"avg_per_week_{timestamp}.csv")
-                df.to_csv(output_path, index=False)
-                console.print(f"[green]Table exported successfully to {output_path}[/green]")
-                console.input("Press Enter to continue...")
+                output_file(df, "avg_per_week")
                 break
             
             if choice == "x":

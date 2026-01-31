@@ -3,8 +3,7 @@ from rich.console import Console, Group
 from utils.get_avg import get_avg_per_day
 from modules.table_template import df_to_rich_table
 from rich.text import Text
-import os
-from datetime import datetime
+from utils.output_file import output_file
 
 def avg_per_day():
         
@@ -13,7 +12,7 @@ def avg_per_day():
         while True:
 
             df, avg = get_avg_per_day()
-                  
+            
             table = df_to_rich_table(df=df.tail(), caption="Table - Avg. Per Day")
             caption = Text("\n\nShowing only 5 most recent days from last 2 weeks.")
             avg_text = Text(f"\n\nAvg. per day: {avg}")
@@ -34,13 +33,7 @@ def avg_per_day():
 
             if choice == "o":
 
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                output_dir = "output"
-                os.makedirs(output_dir, exist_ok=True)
-                output_path = os.path.join(output_dir, f"avg_per_day_{timestamp}.csv")
-                df.to_csv(output_path, index=False)
-                console.print(f"[green]Table exported successfully to {output_path}[/green]")
-                console.input("Press Enter to continue...")
+                output_file(df, "avg_per_day")
                 break
             
             if choice == "x":
