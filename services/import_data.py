@@ -20,8 +20,8 @@ def import_data():
             console.input("Press ENTER to exit")
             return None
 
-        files_text = "\n".join(
-            f"{i+1}) {os.path.basename(f)}"
+        files_text = "\n\n".join(
+            f"{i+1}) {os.path.splitext(os.path.basename(f))[0]}"
             for i, f in enumerate(files)
         )
 

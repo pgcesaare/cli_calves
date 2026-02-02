@@ -50,33 +50,27 @@ def calves_day():
       df = df[df['week_range'].isin(last_two_weeks)]
       df['date_in'] = df['date_in'].dt.date   
       df = df.groupby(['week_range', 'date_in']).size().reset_index(name="total_calves")
-      avg = df['total_calves'].mean()
+      avg = df['total_calves'].mean().round(1)
 
       #formatting week_range
       df = format_week(df)
 
       return df, avg
 
-def get_avg_per_seller():
-
+def calves_month():
+      
       #processing dataframe
       df = normalize_headers()
-      df = process_week(df)
+      df = process_month(df)
 
       #logic
-      last_two_weeks = (df['week_range'].sort_values().unique()[-2:])
-      df = df[df['week_range'].isin(last_two_weeks)]
-      df = df[['seller', 'week_range']]
-      df = df.groupby(['week_range', 'seller']).size().reset_index(name="total_calves")
-      
-      #formatting week_range
-      df = format_week(df)
-      avg = df.groupby('seller')['total_calves'].mean().reset_index(name="average_calves")
-      avg = avg.sort_values(by='average_calves', ascending=False)
-      
+      df = df[['breed', 'month']]
+      df = df.groupby('month')['breed'].size().reset_index(name='total_calves')
+      avg = df['total_calves'].mean()
+
       return df, avg
 
-def get_avg_per_seller_per_day():
+def sellers_day():
 
       #processing dataframe
       df = normalize_headers()
@@ -96,5 +90,38 @@ def get_avg_per_seller_per_day():
       avg['avg_calves_per_day'] = (avg['total_calves'] / 14).round(1) 
       avg = avg.drop(columns=['total_calves'])
       avg = avg.sort_values(by='avg_calves_per_day', ascending=False)
+      
+      return df, avg
+
+def sellers_week():
+
+      #processing dataframe
+      df = normalize_headers()
+      df = process_week(df)
+
+      #logic
+      last_two_weeks = (df['week_range'].sort_values().unique()[-2:])
+      df = df[df['week_range'].isin(last_two_weeks)]
+      df = df[['seller', 'week_range']]
+      df = df.groupby(['week_range', 'seller']).size().reset_index(name="total_calves")
+      
+      #formatting week_range
+      df = format_week(df)
+      avg = df.groupby('seller')['total_calves'].mean().reset_index(name="average_calves")
+      avg = avg.sort_values(by='average_calves', ascending=False)
+      
+      return df, avg
+
+def sellers_month():
+
+      #processing dataframe
+      df = normalize_headers()
+      df = process_month(df)
+      
+      #logic
+      df = df[['seller', 'month']]
+      df = df.groupby(['month', 'seller']).size().reset_index(name="total_calves")
+      avg = df.groupby('seller')['total_calves'].mean().reset_index(name="average_calves")
+      avg = avg.sort_values(by='average_calves', ascending=False)
       
       return df, avg

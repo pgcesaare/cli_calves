@@ -1,5 +1,5 @@
 from modules.menu_builder import build_menu
-from modules.quick_analysis.averages.averages import averages_menu
+from modules.quick_analysis.averages.averages_main_menu import averages_menu
 from rich.console import Console
 console = Console()
 
