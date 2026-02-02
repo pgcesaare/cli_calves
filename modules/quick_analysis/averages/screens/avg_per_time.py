@@ -1,108 +1,39 @@
-from modules.panel_template import panel_template
-from rich.console import Console, Group
+from modules.quick_analysis.averages.utils.template_runner import template_runner
 from utils.get_avg import calves_day, calves_week, calves_month
-from modules.table_template import df_to_rich_table
-from rich.text import Text
-from utils.output_file import output_file
+
 
 def avg_per_day():
         
-        console = Console()
-
-        while True:
-
-            df, avg = calves_day()
-            
-            table = df_to_rich_table(df=df.tail(), caption="Table - Avg. Per Day")
-            caption = Text("\n\nShowing only 5 most recent days from last 2 weeks.")
-            avg_text = Text(f"\n\nAvg. per day: {avg}")
-
-            content = Group(
-                  table,
-                  caption,
-                  avg_text
-            )
-
-            panel_template(
-                title="Avg. per day",
-                subtitle="[O] to output table",
-                content=content
-            )
-
-            choice = console.input("Select an option: ").strip().lower()
-
-            if choice == "o":
-
-                output_file(df, "avg_per_day")
-                break
-            
-            if choice == "x":
-                exit()
-            if choice == "m":
-                break
+    template_runner(
+        title="Avg. per Day",
+        general_caption="Average per day",
+        caption="Table - Avg. Per Day, data from last 2 weeks",
+        dataframe=True,
+        dataframe_caption="Table - Avg. Per Day, data from last 2 weeks",
+        data_fn=calves_day,
+        output_name="avg_per_day"
+    )
             
 def avg_per_week():
         
-        console = Console()
-
-        while True:
-
-            df, avg = calves_week()
-                  
-            table = df_to_rich_table(df=df, caption="Table - Avg. Per Week")
-            avg_text = Text(f"\n\nAvg. per week: {avg}")
-
-            content = Group(
-                  table,
-                  avg_text
-            )
-
-            panel_template(
-                title="Avg. per week",
-                subtitle="[O] to output table",
-                content=content
-            )
-
-            choice = console.input("Select an option: ").strip().lower()
-
-            if choice == "o":
-                output_file(df, "avg_per_week")
-                break
-            
-            if choice == "x":
-                 exit()
-            if choice == "m":
-                break
+    template_runner(
+        title="Avg. per Week",
+        general_caption="Average per week",
+        caption="Table - Avg. Per Week",
+        dataframe=True,
+        dataframe_caption="Table - Avg. Per Week",
+        data_fn=calves_week,
+        output_name="avg_per_week"
+    )
             
 def avg_per_month():
         
-        console = Console()
-
-        while True:
-
-            df, avg = calves_month()
-                  
-            table = df_to_rich_table(df=df, caption="Table - Avg. Per Month")
-            avg_text = Text(f"\n\nAvg. per month: {avg}")
-
-            content = Group(
-                  table,
-                  avg_text
-            )
-
-            panel_template(
-                title="Avg. per month",
-                subtitle="[O] to output table",
-                content=content
-            )
-
-            choice = console.input("Select an option: ").strip().lower()
-
-            if choice == "o":
-                output_file(df, "avg_per_month")
-                break
-            
-            if choice == "x":
-                 exit()
-            if choice == "m":
-                break
+    template_runner(
+        title="Avg. per Month",
+        general_caption="Average per month",
+        caption="Table - Avg. Per Month",
+        dataframe=True,
+        dataframe_caption="Table - Avg. Per Month",
+        data_fn=calves_month,
+        output_name="avg_per_month"
+    )
